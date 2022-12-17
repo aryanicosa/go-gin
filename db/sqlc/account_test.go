@@ -30,18 +30,18 @@ func createRandomAccount(t *testing.T) Account {
 	return account
 }
 
-func deleteTestAccount(a Account) {
-	_ = testQueries.DeleteAccount(context.Background(), a.ID)
-}
+//func deleteTestAccount(a Account) {
+//	_ = testQueries.DeleteAccount(context.Background(), a.ID)
+//}
 
 func TestCreateAccount(t *testing.T) {
-	accountCreated := createRandomAccount(t)
-	defer deleteTestAccount(accountCreated)
+	createRandomAccount(t)
+	//defer deleteTestAccount(accountCreated)
 }
 
 func TestGetAccount(t *testing.T) {
 	accountCreated := createRandomAccount(t)
-	defer deleteTestAccount(accountCreated)
+	//defer deleteTestAccount(accountCreated)
 	accountGet, err := testQueries.GetAccount(context.Background(), accountCreated.ID)
 	require.NoError(t, err)
 	require.NotEmpty(t, accountGet)
@@ -55,7 +55,7 @@ func TestGetAccount(t *testing.T) {
 
 func TestUpdateAccount(t *testing.T) {
 	accountCreated := createRandomAccount(t)
-	defer deleteTestAccount(accountCreated)
+	//defer deleteTestAccount(accountCreated)
 
 	arg := UpdateAccountParams{
 		ID:      accountCreated.ID,
@@ -98,8 +98,8 @@ func TestListAccounts(t *testing.T) {
 	require.NoError(t, err)
 	require.Len(t, accounts, 10)
 
-	for _, account := range accounts {
-		require.NotEmpty(t, account)
-		deleteTestAccount(account)
-	}
+	//for _, account := range accounts {
+	//	require.NotEmpty(t, account)
+	//	deleteTestAccount(account)
+	//}
 }

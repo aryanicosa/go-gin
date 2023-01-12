@@ -8,7 +8,7 @@ import (
 
 // Store provided all functions to execute db queries and transactions
 type Store struct {
-	*Queries // composition, prefered way to extend struct functionality in Go instead of inheritance by embedding query inside the store
+	*Queries // composition, preferred way to extend struct functionality in Go instead of inheritance by embedding query inside the store
 	// or individual query provided by Queries will be available to store.
 	db *sql.DB // provide new DB transaction
 }

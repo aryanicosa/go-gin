@@ -5,6 +5,7 @@ import (
 	db "github.com/aryanicosa/go_gin_simple_bank/db/sqlc"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 type createAccountRequest struct {
@@ -90,11 +91,8 @@ type updateAccountRequest struct {
 }
 
 func (server *Server) updateAccount(ctx *gin.Context) {
-	var reqId getAccountRequest
-	if err := ctx.ShouldBindUri(&reqId); err != nil {
-		ctx.JSON(http.StatusBadRequest, errorResponse(err))
-		return
-	}
+	idParam := ctx.Param("id")
+	id, _ := strconv.Atoi(idParam)
 
 	var reqUpdate updateAccountRequest
 	if err := ctx.ShouldBindJSON(&reqUpdate); err != nil {
@@ -102,7 +100,7 @@ func (server *Server) updateAccount(ctx *gin.Context) {
 		return
 	}
 
-	account, err := server.store.GetAccount(ctx, reqId.ID)
+	account, err := server.store.GetAccount(ctx, int64(id))
 	if err != nil {
 		if err == sql.ErrNoRows {
 			ctx.JSON(http.StatusNotFound, errorResponse(err))

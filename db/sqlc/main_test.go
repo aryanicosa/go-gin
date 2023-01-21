@@ -2,16 +2,12 @@ package db
 
 import (
 	"database/sql"
+	"github.com/aryanicosa/go_gin_simple_bank/util"
 	"log"
 	"os"
 	"testing"
 
 	_ "github.com/lib/pq" // _ means we use it without call any function from it directly
-)
-
-const (
-	dbDriver = "postgres"
-	dbSource = "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable"
 )
 
 var testQueries *Queries
@@ -20,7 +16,11 @@ var testDB *sql.DB
 func TestMain(m *testing.M) {
 	var err error
 
-	testDB, err = sql.Open(dbDriver, dbSource)
+	config, err := util.LoadConfig("../..")
+	if err != nil {
+		log.Fatal("can not load config:", err)
+	}
+	testDB, err = sql.Open(config.DBDriver, config.DBSource)
 	if err != nil {
 		log.Fatal("can not connect to db:", err)
 	}
